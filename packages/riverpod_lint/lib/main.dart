@@ -18,6 +18,7 @@ import 'src/lints/notifier_extends.dart';
 import 'src/lints/only_use_keep_alive_inside_keep_alive.dart';
 import 'src/lints/protected_notifier_properties.dart';
 import 'src/lints/provider_dependencies.dart';
+import 'src/lints/provider_dependencies_riverpod_only.dart';
 import 'src/lints/provider_parameters.dart';
 import 'src/lints/riverpod_syntax_error.dart';
 import 'src/lints/scoped_providers_should_specify_dependencies.dart';
@@ -87,5 +88,12 @@ class _RiverpodPlugin extends Plugin {
     registry.registerAssist(ConvertToStatefulHookWidget.new);
     registry.registerAssist(ConvertToConsumerStatefulWidget.new);
     registry.registerAssist(ConvertToStatefulWidget.new);
+
+    // 仅检查 @Riverpod/@riverpod 声明，忽略 @Dependencies 语义。
+    registry.registerWarningRule(ProviderDependenciesRiverpodOnly());
+    registry.registerFixForRule(
+      ProviderDependenciesRiverpodOnly.code,
+      ProviderDependenciesRiverpodOnlyFix.new,
+    );
   }
 }
